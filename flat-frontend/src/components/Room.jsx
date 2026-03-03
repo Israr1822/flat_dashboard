@@ -48,7 +48,7 @@ export default function Room() {
       </div>
 
       <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
-        No rooms to display. Please connect to the backend.
+        No rooms 
       </div>
     </div>
   );

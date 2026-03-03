@@ -48,7 +48,7 @@ export default function Occupants() {
       </div>
 
       <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
-        No occupants to display. Please connect to the backend.
+        No occupants yet
       </div>
     </div>
   );

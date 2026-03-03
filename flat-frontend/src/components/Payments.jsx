@@ -52,7 +52,7 @@ export default function Payments() {
       </div>
 
       <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
-        No payments to display. Please connect to the backend.
+        No payments yet
       </div>
     </div>
   );
