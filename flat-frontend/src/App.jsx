@@ -1,6 +1,9 @@
-// src/App.tsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
+import Occupants from "./components/Occupants";
+import Flats from "./components/Flats";
+import Payments from "./components/Payments";
+import Room from "./components/Room";
 
 function App() {
   return (
@@ -23,15 +26,12 @@ function App() {
               </div>
             }
           />
-
-          {/* Add more later */}
-          {/* <Route path="/occupants" element={<OccupantsPage />} /> */}
-          {/* <Route path="/payments" element={<PaymentsPage />} /> */}
-          {/* <Route path="/flats/:id" element={<FlatDetail />} /> */}
-          {/* <Route path="/rooms/:id" element={<RoomDetail />} /> */}
+          <Route path="/occupants" element={<Occupants />} />
+          <Route path="/flats" element={<Flats />} />
+          <Route path="/payments" element={<Payments />} />
+          <Route path="/room" element={<Room />} />
         </Route>
 
-        {/* Optional: 404 page or login outside layout */}
         <Route
           path="*"
           element={<div className="p-10 text-center">404 - Page Not Found</div>}
