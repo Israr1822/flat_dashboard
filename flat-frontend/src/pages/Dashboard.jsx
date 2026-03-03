@@ -1,8 +1,9 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "../../pages/Sidebar";
-import Header from "../../pages/Header";
+import Sidebar from "./Sidebar";
+import Index from "./Index";
 
-export default function DashboardLayout() {
+export default function Dashboard() {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
@@ -11,7 +12,7 @@ export default function DashboardLayout() {
       {/* Main content area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <Header />
+        <Index />
 
         {/* Page content */}
         <main className="flex-1 overflow-y-auto p-6">
