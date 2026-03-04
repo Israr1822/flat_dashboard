@@ -4,7 +4,6 @@ import { DoorOpen, Plus, Search } from "lucide-react";
 export default function Room() {
   return (
     <div>
-      {/* Page Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <DoorOpen className="text-blue-600" size={28} />
@@ -16,23 +15,6 @@ export default function Room() {
         </button>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white rounded-lg shadow p-5">
-          <p className="text-sm text-gray-500 mb-1">Total Rooms</p>
-          <p className="text-2xl font-bold text-gray-800">6</p>
-        </div>
-        <div className="bg-white rounded-lg shadow p-5">
-          <p className="text-sm text-gray-500 mb-1">Occupied</p>
-          <p className="text-2xl font-bold text-green-600">4</p>
-        </div>
-        <div className="bg-white rounded-lg shadow p-5">
-          <p className="text-sm text-gray-500 mb-1">Vacant</p>
-          <p className="text-2xl font-bold text-amber-500">2</p>
-        </div>
-      </div>
-
-      {/* Search Bar */}
       <div className="bg-white rounded-lg shadow mb-4 p-4">
         <div className="relative">
           <Search
@@ -47,8 +29,8 @@ export default function Room() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
-        No rooms 
+      <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500 font-medium">
+        Rooms list will be display here
       </div>
     </div>
   );

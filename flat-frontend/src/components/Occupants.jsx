@@ -4,7 +4,6 @@ import { Users, UserPlus, Search } from "lucide-react";
 export default function Occupants() {
   return (
     <div>
-      {/* Page Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <Users className="text-blue-600" size={28} />
@@ -16,23 +15,6 @@ export default function Occupants() {
         </button>
       </div>
 
-    
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white rounded-lg shadow p-5">
-          <p className="text-sm text-gray-500 mb-1">Total Occupants</p>
-          <p className="text-2xl font-bold text-gray-800">4</p>
-        </div>
-        <div className="bg-white rounded-lg shadow p-5">
-          <p className="text-sm text-gray-500 mb-1">Active</p>
-          <p className="text-2xl font-bold text-green-600">3</p>
-        </div>
-        <div className="bg-white rounded-lg shadow p-5">
-          <p className="text-sm text-gray-500 mb-1">Inactive</p>
-          <p className="text-2xl font-bold text-red-500">1</p>
-        </div>
-      </div>
-
-  
       <div className="bg-white rounded-lg shadow mb-4 p-4">
         <div className="relative">
           <Search
@@ -47,8 +29,8 @@ export default function Occupants() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
-        No occupants yet
+      <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500 font-medium">
+        Occupants list will be display here
       </div>
     </div>
   );

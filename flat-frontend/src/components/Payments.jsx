@@ -4,7 +4,7 @@ import { CreditCard, Plus, Search } from "lucide-react";
 export default function Payments() {
   return (
     <div>
-      {/* Page Header */}
+      
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <CreditCard className="text-blue-600" size={28} />
@@ -16,7 +16,7 @@ export default function Payments() {
         </button>
       </div>
 
-      {/* Stats Cards */}
+    
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white rounded-lg shadow p-5">
           <p className="text-sm text-gray-500 mb-1">Total Collected</p>
@@ -36,7 +36,7 @@ export default function Payments() {
         </div>
       </div>
 
-      {/* Search Bar */}
+    
       <div className="bg-white rounded-lg shadow mb-4 p-4">
         <div className="relative">
           <Search

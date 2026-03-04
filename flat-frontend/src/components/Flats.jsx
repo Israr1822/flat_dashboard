@@ -4,7 +4,6 @@ import { Building, Plus, Search } from "lucide-react";
 export default function Flats() {
   return (
     <div>
-      {/* Page Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <Building className="text-blue-600" size={28} />
@@ -16,23 +15,6 @@ export default function Flats() {
         </button>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white rounded-lg shadow p-5">
-          <p className="text-sm text-gray-500 mb-1">Total Flats</p>
-          <p className="text-2xl font-bold text-gray-800">10</p>
-        </div>
-        <div className="bg-white rounded-lg shadow p-5">
-          <p className="text-sm text-gray-500 mb-1">Occupied</p>
-          <p className="text-2xl font-bold text-green-600">10</p>
-        </div>
-        <div className="bg-white rounded-lg shadow p-5">
-          <p className="text-sm text-gray-500 mb-1">Vacant</p>
-          <p className="text-2xl font-bold text-amber-500">10</p>
-        </div>
-      </div>
-
-      
       <div className="bg-white rounded-lg shadow mb-4 p-4">
         <div className="relative">
           <Search
@@ -47,8 +29,8 @@ export default function Flats() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
-        No flats 
+      <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500 font-medium">
+        Flats list will be display here
       </div>
     </div>
   );
