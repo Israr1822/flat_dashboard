@@ -5,11 +5,10 @@ import {
   User,
   Bed,
   CreditCard,
-  AlertTriangle,
   Pencil,
   Trash2,
 } from "lucide-react";
-
+import { useOccupants } from "../hooks/useOccupants";   
 
 function StatCard({ title, value, subtitle, icon: Icon, variant = "default" }) {
   const variantStyles = {
@@ -36,83 +35,62 @@ function StatCard({ title, value, subtitle, icon: Icon, variant = "default" }) {
   );
 }
 
-export default function Home({
-  occupants = [],
-  unpaidCount = 0,
-  flats = [],
-}) {
+export default function Home() {
+  const { occupants, loading, error } = useOccupants();
   const [search, setSearch] = useState("");
 
   const filteredOccupants = occupants.filter((person) => {
-    const searchStr =
-      `${person.name || ""} ${person.flat || ""} ${person.department || ""}`.toLowerCase();
+    const searchStr = `${person.name || ""} ${person.flat || ""} ${person.department || ""}`.toLowerCase();
     return searchStr.includes(search.toLowerCase());
   });
 
   const totalOccupied = occupants.length;
 
-  const handleAdd = () => {
-    console.log("→ Should open add occupant form / modal");
-  };
-
-  const handleEdit = (id) => {
-    if (!id) return;
-    console.log(`→ Edit occupant ${id}`);
-  };
-
+  const handleAdd = () => console.log("→ Open add modal (POST later)");
+  const handleEdit = (id) => id && console.log(`→ Edit ${id}`);
   const handleDelete = (id) => {
-    if (!id) return;
-    if (window.confirm("Delete this occupant permanently?")) {
-      console.log(`→ DELETE occupant ${id}`);
+    if (id && window.confirm("Delete permanently?")) {
+      console.log(`→ DELETE ${id} (send DELETE request later)`);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-lg text-muted-foreground">Loading occupants...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-lg text-red-600">Error: {error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 pb-12">
-      {/* Greeting */}
       <div className="mb-8 animate-fade-in text-left">
-        <h1 className="text-3xl font-bold text-foreground">Hey Israr! 👋</h1>
+        <h1 className="text-3xl font-bold text-foreground">Hi👋</h1>
         <p className="mt-1 text-muted-foreground">
           Here's how your rental family is doing today
         </p>
       </div>
 
-    
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard
-          title="Total Occupants"
-          value={totalOccupied}
-          subtitle=""
-          variant="primary"
-        />
-        <StatCard
-          title="Active Flats"
-          value={flats.filter((f) => f.ACTIVE).length}
-          subtitle=""
-          variant="primary"
-        />
-        <StatCard
-          title="Room"
-          value={flats.filter((f) => f.OCCUPIED).length}
-          subtitle=""
-          variant="primary"
-        />
-        <StatCard
-          title="Unpaid Payments"
-          value={unpaidCount}
-          subtitle=""
-          variant="primary"
-        />
+        <StatCard title="Total Occupants" value={totalOccupied} subtitle="" variant="primary" />
+        <StatCard title="Active Flats" value={0} subtitle="" variant="primary" /> {/* TODO */}
+        <StatCard title="Room" value={0} subtitle="" variant="primary" /> {/* TODO */}
+        <StatCard title="Unpaid Payments" value={0} subtitle="" variant="primary" /> {/* TODO */}
       </div>
 
-    
       <div className="rounded-xl border border-gray-200 bg-white shadow-sm animate-fade-in overflow-hidden dark:bg-card dark:border-border">
         <div className="flex flex-wrap items-center justify-between gap-4 p-5 border-b border-gray-200 dark:border-border">
           <div>
             <h2 className="font-bold text-lg">All Occupants</h2>
-            <p className="text-sm text-muted-foreground">
-              Everyone living in your flats❤️
-            </p>
+            <p className="text-sm text-muted-foreground">Everyone living in your flats❤️</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -123,15 +101,13 @@ export default function Home({
                 placeholder="Search name, flat, dept..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg
-                 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all dark:bg-background dark:border-border"
+                className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all dark:bg-background dark:border-border"
               />
             </div>
 
             <button
               onClick={handleAdd}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm
-               font-medium text-black bg-primary rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap shadow-sm"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-black bg-primary rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap shadow-sm"
             >
               <Plus className="h-4 w-4" />
               Add Person
@@ -156,10 +132,7 @@ export default function Home({
             <tbody className="divide-y divide-gray-100 dark:divide-border">
               {filteredOccupants.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={7}
-                    className="h-32 text-center text-muted-foreground"
-                  >
+                  <td colSpan={7} className="h-32 text-center text-muted-foreground">
                     {occupants.length === 0
                       ? "No occupants yet. Add someone to get started."
                       : "No matching occupants found."}
@@ -168,32 +141,28 @@ export default function Home({
               ) : (
                 filteredOccupants.map((person, index) => (
                   <tr
-                    // ── Updated ────────────────────────────────────────────────
-                    key={person.id ?? `occupant-row-${index}`}
-                    // ────────────────────────────────────────────────────────────
+                    key={person.id ?? `row-${index}`}
                     className="hover:bg-gray-50/50 dark:hover:bg-muted/30 transition-colors"
                   >
-                    <td className="px-5 py-3 font-medium text-foreground">
-                      {person.name ?? "—"}
-                    </td>
-                    <td className="px-5 py-3">{person.contact ?? "—"}</td>
-                    <td className="px-5 py-3">{person.flat ?? "—"}</td>
-                    <td className="px-5 py-3">{person.room ?? "—"}</td>
-                    <td className="px-5 py-3">{person.department ?? "—"}</td>
-                    <td className="px-5 py-3">{person.position ?? "—"}</td>
+                    <td className="px-5 py-3 font-medium text-foreground">{person.name}</td>
+                    <td className="px-5 py-3">{person.contact}</td>
+                    <td className="px-5 py-3">{person.flat}</td>
+                    <td className="px-5 py-3">{person.room}</td>
+                    <td className="px-5 py-3">{person.department}</td>
+                    <td className="px-5 py-3">{person.position}</td>
                     <td className="px-5 py-3 text-right">
                       <div className="flex items-center justify-end gap-1">
                         <button
                           className="p-2 text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-lg transition-colors dark:hover:bg-muted"
                           onClick={() => handleEdit(person.id)}
-                          title="Edit occupant"
+                          title="Edit"
                         >
                           <Pencil className="h-4 w-4" />
                         </button>
                         <button
                           className="p-2 text-destructive hover:text-destructive/80 hover:bg-destructive/10 rounded-lg transition-colors"
                           onClick={() => handleDelete(person.id)}
-                          title="Delete occupant"
+                          title="Delete"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
