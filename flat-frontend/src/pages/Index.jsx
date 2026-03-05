@@ -40,7 +40,7 @@ export default function Home() {
   const [search, setSearch] = useState("");
 
   const filteredOccupants = occupants.filter((person) => {
-    const searchStr = `${person.name || ""} ${person.flat || ""} ${person.department || ""}`.toLowerCase();
+    const searchStr = `${person.name || ""} ${person.room || ""} ${person.flat_id || ""} ${person.contact || ""}  ${person.department || ""}`.toLowerCase();
     return searchStr.includes(search.toLowerCase());
   });
 
@@ -81,9 +81,9 @@ export default function Home() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard title="Total Occupants" value={totalOccupied} subtitle="" variant="primary" />
-        <StatCard title="Active Flats" value={0} subtitle="" variant="primary" /> {/* TODO */}
-        <StatCard title="Room" value={0} subtitle="" variant="primary" /> {/* TODO */}
-        <StatCard title="Unpaid Payments" value={0} subtitle="" variant="primary" /> {/* TODO */}
+        <StatCard title="Active Flats" value={0} subtitle="" variant="primary" /> 
+        <StatCard title="Room" value={0} subtitle="" variant="primary" /> 
+        <StatCard title="Unpaid Payments" value={0} subtitle="" variant="primary" /> 
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-white shadow-sm animate-fade-in overflow-hidden dark:bg-card dark:border-border">
@@ -98,7 +98,7 @@ export default function Home() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
               <input
                 type="text"
-                placeholder="Search name, flat, dept..."
+                placeholder="Search name,  dept..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all dark:bg-background dark:border-border"
@@ -146,7 +146,7 @@ export default function Home() {
                   >
                     <td className="px-5 py-3 font-medium text-foreground">{person.name}</td>
                     <td className="px-5 py-3">{person.contact}</td>
-                    <td className="px-5 py-3">{person.flat}</td>
+                    <td className="px-5 py-3">{person.flat_id}</td>
                     <td className="px-5 py-3">{person.room}</td>
                     <td className="px-5 py-3">{person.department}</td>
                     <td className="px-5 py-3">{person.position}</td>
