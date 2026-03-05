@@ -1,13 +1,17 @@
 {
     "cSpell.words": [
         "buildingmaintenance",
+        "Cnic",
         "cnicnumber",
         "contactnumber",
+        "Createdat",
         "flatnumber",
         "occpancy",
         "Occupancycapacity",
+        "Postion",
         "rentamount",
         "roomnumber",
-        "sechduled"
+        "sechduled",
+        "Updatedat"
     ]
 }

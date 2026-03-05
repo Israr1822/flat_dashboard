@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Search,
   Plus,
@@ -10,141 +10,202 @@ import {
   Trash2,
 } from "lucide-react";
 
-export default function Home() {
+
+function StatCard({ title, value, subtitle, icon: Icon, variant = "default" }) {
+  const variantStyles = {
+    primary: "text-primary",
+    success: "text-green-600 dark:text-green-400",
+    warning: "text-yellow-600 dark:text-yellow-400",
+    overdue: "text-red-600 dark:text-red-400",
+    default: "text-foreground",
+  };
+
   return (
-    <div className="p-2 space-y-8">
-      {/* Welcome Header */}
-      <div>
-        <h1 className="text-4xl font-bold text-gray-800 flex items-center gap-2">
-          Hey Israr!{" "}
-          <span role="img" aria-label="wave">
-            👋
-          </span>
-        </h1>
-        <p className="text-gray-500 mt-2 text-lg">
-          Here's how your rental family is doing today{" "}
-          <span role="img" aria-label="house">
-            🏡
-          </span>
+    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:bg-card dark:border-border">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+          <p className={`text-2xl font-bold ${variantStyles[variant] || ""}`}>
+            {value}
+          </p>
+        </div>
+        {Icon && <Icon className="h-8 w-8 text-muted-foreground/70" />}
+      </div>
+      <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>
+    </div>
+  );
+}
+
+export default function Home({
+  occupants = [],
+  unpaidCount = 0,
+  flats = [],
+}) {
+  const [search, setSearch] = useState("");
+
+  const filteredOccupants = occupants.filter((person) => {
+    const searchStr =
+      `${person.name || ""} ${person.flat || ""} ${person.department || ""}`.toLowerCase();
+    return searchStr.includes(search.toLowerCase());
+  });
+
+  const totalOccupied = occupants.length;
+
+  const handleAdd = () => {
+    console.log("→ Should open add occupant form / modal");
+  };
+
+  const handleEdit = (id) => {
+    if (!id) return;
+    console.log(`→ Edit occupant ${id}`);
+  };
+
+  const handleDelete = (id) => {
+    if (!id) return;
+    if (window.confirm("Delete this occupant permanently?")) {
+      console.log(`→ DELETE occupant ${id}`);
+    }
+  };
+
+  return (
+    <div className="space-y-8 pb-12">
+      {/* Greeting */}
+      <div className="mb-8 animate-fade-in text-left">
+        <h1 className="text-3xl font-bold text-foreground">Hey Israr! 👋</h1>
+        <p className="mt-1 text-muted-foreground">
+          Here's how your rental family is doing today
         </p>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
           title="Total Occupants"
-          value="14"
-          subtext="of 19 beds filled"
-          icon={<User size={24} />}
-          bgColor="bg-orange-50"
-          iconBg="bg-orange-100"
-          iconColor="text-orange-600"
+          value={totalOccupied}
+          subtitle=""
+          variant="primary"
         />
         <StatCard
           title="Active Flats"
-          value="3"
-          subtext="3 total"
-          icon={<Bed size={24} />}
-          bgColor="bg-green-50"
-          iconBg="bg-green-100"
-          iconColor="text-green-600"
+          value={flats.filter((f) => f.ACTIVE).length}
+          subtitle=""
+          variant="primary"
+        />
+        <StatCard
+          title="Room"
+          value={flats.filter((f) => f.OCCUPIED).length}
+          subtitle=""
+          variant="primary"
         />
         <StatCard
           title="Unpaid Payments"
-          value="6"
-          subtext="this cycle"
-          icon={<CreditCard size={24} />}
-          bgColor="bg-yellow-50"
-          iconBg="bg-yellow-100"
-          iconColor="text-yellow-600"
-        />
-        <StatCard
-          title="Overdue"
-          value="3"
-          subtext="need attention 💛"
-          icon={<AlertTriangle size={24} />}
-          bgColor="bg-red-50"
-          iconBg="bg-red-100"
-          iconColor="text-red-600"
+          value={unpaidCount}
+          subtitle=""
+          variant="primary"
         />
       </div>
 
-      {/* Occupants Table Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    
+      <div className="rounded-xl border border-gray-200 bg-white shadow-sm animate-fade-in overflow-hidden dark:bg-card dark:border-border">
+        <div className="flex flex-wrap items-center justify-between gap-4 p-5 border-b border-gray-200 dark:border-border">
           <div>
-            <h2 className="text-xl font-bold text-gray-800">All Occupants</h2>
-            <p className="text-sm text-gray-500">
-              Everyone living in your flats right now ❤️
+            <h2 className="font-bold text-lg">All Occupants</h2>
+            <p className="text-sm text-muted-foreground">
+              Everyone living in your flats❤️
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <Search
-                size={20}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              />
+
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="relative w-full sm:w-64 min-w-[200px]">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search name, flat, dept..."
-                className="pl-10 pr-4 py-2 bg-gray-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-orange-500 outline-none"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg
+                 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all dark:bg-background dark:border-border"
               />
             </div>
-            <button className="flex items-center gap-2 bg-orange-500 text-white px-5 py-2.5 rounded-xl hover:bg-orange-600 transition-all font-semibold shadow-sm shadow-orange-200">
-              <Plus size={20} />
+
+            <button
+              onClick={handleAdd}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm
+               font-medium text-black bg-primary rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap shadow-sm"
+            >
+              <Plus className="h-4 w-4" />
               Add Person
             </button>
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-white border-b border-gray-100">
+          <table className="w-full text-sm text-left border-collapse">
+            <thead className="bg-gray-50 text-muted-foreground dark:bg-muted/50 border-b border-gray-200 dark:border-border">
               <tr>
-                <th className="px-6 py-4 text-sm font-medium text-gray-400">
-                  Name
-                </th>
-                <th className="px-6 py-4 text-sm font-medium text-gray-400">
-                  Contact
-                </th>
-                <th className="px-6 py-4 text-sm font-medium text-gray-400">
-                  Flat
-                </th>
-                <th className="px-6 py-4 text-sm font-medium text-gray-400">
-                  Room
-                </th>
-                <th className="px-6 py-4 text-sm font-medium text-gray-400">
-                  Department
-                </th>
-                <th className="px-6 py-4 text-sm font-medium text-gray-400">
-                  Position
-                </th>
-                <th className="px-6 py-4 text-sm font-medium text-gray-400 text-right">
-                  Actions
-                </th>
+                <th className="px-5 py-3 font-medium">Name</th>
+                <th className="px-5 py-3 font-medium">Contact</th>
+                <th className="px-5 py-3 font-medium">Flat</th>
+                <th className="px-5 py-3 font-medium">Room</th>
+                <th className="px-5 py-3 font-medium">Department</th>
+                <th className="px-5 py-3 font-medium">Position</th>
+                <th className="px-5 py-3 font-medium text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
-              {/* Table Data will be populated here by the user */}
+
+            <tbody className="divide-y divide-gray-100 dark:divide-border">
+              {filteredOccupants.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={7}
+                    className="h-32 text-center text-muted-foreground"
+                  >
+                    {occupants.length === 0
+                      ? "No occupants yet. Add someone to get started."
+                      : "No matching occupants found."}
+                  </td>
+                </tr>
+              ) : (
+                filteredOccupants.map((person, index) => (
+                  <tr
+                    // ── Updated ────────────────────────────────────────────────
+                    key={person.id ?? `occupant-row-${index}`}
+                    // ────────────────────────────────────────────────────────────
+                    className="hover:bg-gray-50/50 dark:hover:bg-muted/30 transition-colors"
+                  >
+                    <td className="px-5 py-3 font-medium text-foreground">
+                      {person.name ?? "—"}
+                    </td>
+                    <td className="px-5 py-3">{person.contact ?? "—"}</td>
+                    <td className="px-5 py-3">{person.flat ?? "—"}</td>
+                    <td className="px-5 py-3">{person.room ?? "—"}</td>
+                    <td className="px-5 py-3">{person.department ?? "—"}</td>
+                    <td className="px-5 py-3">{person.position ?? "—"}</td>
+                    <td className="px-5 py-3 text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          className="p-2 text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-lg transition-colors dark:hover:bg-muted"
+                          onClick={() => handleEdit(person.id)}
+                          title="Edit occupant"
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </button>
+                        <button
+                          className="p-2 text-destructive hover:text-destructive/80 hover:bg-destructive/10 rounded-lg transition-colors"
+                          onClick={() => handleDelete(person.id)}
+                          title="Delete occupant"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
-    </div>
-  );
-}
-
-function StatCard({ title, value, subtext, icon, bgColor, iconBg, iconColor }) {
-  return (
-    <div
-      className={`${bgColor} p-6 rounded-3xl flex items-center justify-between border border-transparent hover:border-gray-200 transition-all cursor-default`}
-    >
-      <div className="space-y-1">
-        <p className="text-sm font-medium text-gray-500">{title}</p>
-        <p className="text-3xl font-extrabold text-gray-800">{value}</p>
-        <p className="text-xs text-gray-400 font-medium">{subtext}</p>
-      </div>
-      <div className={`${iconBg} ${iconColor} p-3 rounded-2xl`}>{icon}</div>
     </div>
   );
 }
