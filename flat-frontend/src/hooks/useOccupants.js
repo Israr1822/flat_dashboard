@@ -10,7 +10,7 @@ export function useOccupants() {
         setLoading(true);
         setError(null);
 
-        const res = await fetch("/api/occupants"); 
+        const res = await fetch("http://localhost:5000/api/occupants"); 
 
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -20,7 +20,7 @@ export function useOccupants() {
           id: item._id,
           name: item.Name || "—",
           contact: item.contactnumber || "—",
-          flat: "—",              
+          flatnumber: item.flatnumber|| "—" ,              
           room: item.room_id || "—",
           department: item.department || "—",
           position: item.position || "—",

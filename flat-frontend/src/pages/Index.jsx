@@ -8,7 +8,7 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react";
-import { useOccupants } from "../hooks/useOccupants";   
+import { useOccupants } from "../hooks/useOccupants";
 
 function StatCard({ title, value, subtitle, icon: Icon, variant = "default" }) {
   const variantStyles = {
@@ -40,7 +40,8 @@ export default function Home() {
   const [search, setSearch] = useState("");
 
   const filteredOccupants = occupants.filter((person) => {
-    const searchStr = `${person.name || ""} ${person.room || ""} ${person.flat_id || ""} ${person.contact || ""}  ${person.department || ""}`.toLowerCase();
+    const searchStr =
+      `${person.name || ""} ${person.room || ""} ${person.flatnumber || ""} ${person.contact || ""}  ${person.department || ""}`.toLowerCase();
     return searchStr.includes(search.toLowerCase());
   });
 
@@ -80,17 +81,34 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="Total Occupants" value={totalOccupied} subtitle="" variant="primary" />
-        <StatCard title="Active Flats" value={0} subtitle="" variant="primary" /> 
-        <StatCard title="Room" value={0} subtitle="" variant="primary" /> 
-        <StatCard title="Unpaid Payments" value={0} subtitle="" variant="primary" /> 
+        <StatCard
+          title="Total Occupants"
+          value={totalOccupied}
+          subtitle=""
+          variant="primary"
+        />
+        <StatCard
+          title="Active Flats"
+          value={0}
+          subtitle=""
+          variant="primary"
+        />
+        <StatCard title="Room" value={0} subtitle="" variant="primary" />
+        <StatCard
+          title="Unpaid Payments"
+          value={0}
+          subtitle=""
+          variant="primary"
+        />
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-white shadow-sm animate-fade-in overflow-hidden dark:bg-card dark:border-border">
         <div className="flex flex-wrap items-center justify-between gap-4 p-5 border-b border-gray-200 dark:border-border">
           <div>
             <h2 className="font-bold text-lg">All Occupants</h2>
-            <p className="text-sm text-muted-foreground">Everyone living in your flats❤️</p>
+            <p className="text-sm text-muted-foreground">
+              Everyone living in your flats❤️
+            </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -110,7 +128,7 @@ export default function Home() {
               className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-black bg-primary rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap shadow-sm"
             >
               <Plus className="h-4 w-4" />
-              Add Person
+              Add Occupant
             </button>
           </div>
         </div>
@@ -132,7 +150,10 @@ export default function Home() {
             <tbody className="divide-y divide-gray-100 dark:divide-border">
               {filteredOccupants.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="h-32 text-center text-muted-foreground">
+                  <td
+                    colSpan={7}
+                    className="h-32 text-center text-muted-foreground"
+                  >
                     {occupants.length === 0
                       ? "No occupants yet. Add someone to get started."
                       : "No matching occupants found."}
@@ -144,9 +165,11 @@ export default function Home() {
                     key={person.id ?? `row-${index}`}
                     className="hover:bg-gray-50/50 dark:hover:bg-muted/30 transition-colors"
                   >
-                    <td className="px-5 py-3 font-medium text-foreground">{person.name}</td>
+                    <td className="px-5 py-3 font-medium text-foreground">
+                      {person.name}
+                    </td>
                     <td className="px-5 py-3">{person.contact}</td>
-                    <td className="px-5 py-3">{person.flat_id}</td>
+                    <td className="px-5 py-3">{person.flatnumber}</td>
                     <td className="px-5 py-3">{person.room}</td>
                     <td className="px-5 py-3">{person.department}</td>
                     <td className="px-5 py-3">{person.position}</td>

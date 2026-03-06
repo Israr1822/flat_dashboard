@@ -27,10 +27,11 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { Name, contactnumber, cnicnumber, department, position, room_id } = req.body;
+    const { Name, flatnumber, contactnumber, cnicnumber, department, position, room_id } = req.body;
 
     const newOccupant = new Occupant({
       Name,
+      flatnumber,
       contactnumber,
       cnicnumber,
       department,
@@ -56,6 +57,7 @@ router.put('/:id', async (req, res) => {
     }
 
     if (req.body.Name !== undefined) occupant.Name = req.body.Name;
+    if (req.body.flatnumber !== undefined) occupant.flatnumber = req.body.flatnumber;
     if (req.body.contactnumber !== undefined) occupant.contactnumber = req.body.contactnumber;
     if (req.body.cnicnumber !== undefined) occupant.cnicnumber = req.body.cnicnumber;
     if (req.body.department !== undefined) occupant.department = req.body.department;
