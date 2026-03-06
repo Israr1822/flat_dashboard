@@ -120,7 +120,7 @@ export default function Flats() {
                       <span
                         className={`inline-flex px-2.5 py-1 text-xs font-medium rounded-full ${
                           flat.active
-                            ? "bg-green-100 text-green-800"
+                            ? "bg-green-100 text-gray-800"
                             : "bg-red-100 text-red-800"
                         }`}
                       >

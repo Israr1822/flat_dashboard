@@ -3,6 +3,8 @@ import { Search, Plus, Pencil, Trash2 } from "lucide-react";
 import { useOccupants } from "../hooks/useOccupants";
 import { OccupantModal, ConfirmDialog } from "../components/Occupants";
 
+
+
 function StatCard({ title, value, subtitle, icon: Icon, variant = "default" }) {
   const variantStyles = {
     primary: "text-primary",
@@ -39,11 +41,7 @@ export default function Home() {
   } = useOccupants();
 
   const [search, setSearch] = useState("");
-
-  // Modal state: null | { mode: "add" } | { mode: "edit", occupant: {...} }
   const [modal, setModal] = useState(null);
-
-  // Confirm-delete state: null | { id, name }
   const [confirmDelete, setConfirmDelete] = useState(null);
 
   const filteredOccupants = occupants.filter((person) => {
@@ -53,8 +51,9 @@ export default function Home() {
   });
 
   const totalOccupied = occupants.length;
+  const totalflats = 3;
 
-  // ── handlers ──────────────────────────────────────────────────────────────
+  
   async function handleModalSubmit(formData) {
     if (modal?.mode === "edit") {
       await updateOccupant(modal.occupant.id, formData);
@@ -104,7 +103,7 @@ export default function Home() {
           />
           <StatCard
             title="Active Flats"
-            value={0}
+            value={totalflats}
             subtitle=""
             variant="primary"
           />
@@ -221,8 +220,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* Add / Edit modal (from Occupants.jsx) */}
       {modal && (
         <OccupantModal
           mode={modal.mode}
@@ -231,8 +228,6 @@ export default function Home() {
           onSubmit={handleModalSubmit}
         />
       )}
-
-      {/* Delete confirmation dialog (from Occupants.jsx) */}
       {confirmDelete && (
         <ConfirmDialog
           name={confirmDelete.name}

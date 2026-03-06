@@ -1,8 +1,6 @@
 // hooks/useFlats.js
 import { useState, useEffect, useCallback } from "react";
-
 const API = "http://localhost:5000/api/flats";
-
 function formatFlat(item) {
   return {
     id: item._id,
@@ -16,7 +14,6 @@ function formatFlat(item) {
     
   };
 }
-
 export function useFlats() {
   const [flats, setFlats] = useState([]);
   const [loading, setLoading] = useState(true);
