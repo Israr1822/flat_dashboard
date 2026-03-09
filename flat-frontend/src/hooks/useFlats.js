@@ -1,4 +1,4 @@
-// hooks/useFlats.js
+
 import { useState, useEffect, useCallback } from "react";
 const API = "http://localhost:5000/api/flats";
 function formatFlat(item) {

@@ -7,6 +7,7 @@ const navItems = [
   { to: "/flats", icon: Building, label: "Flats" },
   {to: "/payments", icon: CreditCard, label: "Payments" },
   {to: "/room", icon: DoorOpen, label: "Room" },
+  
 ];
 
 export default function Sidebar() {
