@@ -1,5 +1,5 @@
 import React from "react";
-import { DoorOpen, Plus, Search } from "lucide-react";
+import { DoorOpen, Plus, Search, Edit, Trash2 } from "lucide-react";
 
 export default function Room() {
   return (
@@ -29,8 +29,47 @@ export default function Room() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500 font-medium">
-        Rooms list will be display here
+      <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Flat ID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Room Number
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Rent Amount
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Capacity
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Created At
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Updated At
+                </th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {/* Data will be mapped here from backend */}
+              <tr className="hover:bg-gray-50">
+                <td
+                  colSpan="7"
+                  className="px-6 py-12 text-center text-gray-500 font-medium"
+                >
+                  Rooms list will be displayed here
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
