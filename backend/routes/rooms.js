@@ -23,9 +23,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+
 router.post("/", async (req, res) => {
   try {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({ 
+        error: "Request body is missing or empty. Send JSON data." 
+      }); 
+    }
+
     const { room_number, flat_id, rent_amount, Occupancy_capacity } = req.body;
+
+    if (!room_number) {
+      return res.status(400).json({ error: "room_number is required" });
+    }
 
     const newRoom = new Room({
       room_number,
@@ -39,25 +50,31 @@ router.post("/", async (req, res) => {
     const savedRoom = await newRoom.save();
     res.status(201).json(savedRoom);
   } catch (err) {
-    console.error(err);
+    console.error("POST /rooms error:", err);
     res.status(500).json({ message: "Server error while creating room" });
   }
 });
 
 router.put("/:id", async (req, res) => {
   try {
-    const { room_number, flat_id, rent_amount, Occupancy_capacity } = req.body;
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({ 
+        error: "Request body is missing or empty" 
+      });
+    }
+
+    const { flat_id, room_number, rent_amount, Occupancy_capacity } = req.body;
 
     const updatedRoom = await Room.findByIdAndUpdate(
       req.params.id,
       {
-        room_number,
         flat_id,
+        room_number,
         rent_amount,
         Occupancy_capacity,
         updatedAt: new Date(),
       },
-      { new: true },
+      { new: true }
     );
 
     if (!updatedRoom) {
@@ -66,7 +83,7 @@ router.put("/:id", async (req, res) => {
 
     res.json(updatedRoom);
   } catch (err) {
-    console.error(err);
+    console.error("PUT /rooms/:id error:", err);
     res.status(500).json({ message: "Server error while updating room" });
   }
 });
